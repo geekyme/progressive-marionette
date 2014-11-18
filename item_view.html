@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <script src="http://jashkenas.github.io/underscore/underscore-min.js"></script>
+  <script src="http://jashkenas.github.io/backbone/backbone-min.js"></script>
+  <script src="http://marionettejs.com/downloads/backbone.marionette.min.js"></script>
+    <meta charset="utf-8">
+    <title>Progressive Enhancement with Marionette</title>
+  </head>
+  <body>
+    <h1>Progressive Enhancement with Marionette</h1>
+    <a href="./item_view.html">Item View</a>
+    <a href="./collection_view.html">Collection View</a>
+    <a href="./composite_view.html">Composite View</a>
+
+    <ul id="main">
+      <li id="sample-item">Item 1: shawn</li>
+    </ul>
+    <footer>
+      <p>Need to specify el attribute.</p>
+      <p>Use attachView to attach to region.</p>
+    </footer>
+    <script type="text/html" id="item-template">
+      <li>Item <%- id %>: <%- name %></li>
+    </script>
+    <script type="text/javascript">
+      var App = new Marionette.Application();
+
+      App.addRegions({
+        main: '#main'
+      });
+
+      
+      var View = Marionette.ItemView.extend({
+        template: '#item-template',
+        events: {
+          'click': function(){
+            alert(this.model.get('name'));
+          }
+        },
+        modelEvents: {
+          change: 'render'
+        }
+      });
+
+      var Model = Backbone.Model.extend({
+        url: ''
+      });
+
+      
+      model = new Model({id: 1, name: 'shawn'});
+      
+      // instantiating a view
+      view = new View({
+        model: model,
+        el: '#sample-item'
+      });
+
+      App.main.attachView(view)
+
+      App.start();
+
+    </script>
+  </body>
+</html>

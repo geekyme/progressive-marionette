@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <script src="http://jashkenas.github.io/underscore/underscore-min.js"></script>
+  <script src="http://jashkenas.github.io/backbone/backbone-min.js"></script>
+  <script src="http://marionettejs.com/downloads/backbone.marionette.min.js"></script>
+    <meta charset="utf-8">
+    <title>Progressive Enhancement with Marionette</title>
+  </head>
+  <body>
+    <h1>Progressive Enhancement with Marionette</h1>
+    <a href="./item_view.html">Item View</a>
+    <a href="./collection_view.html">Collection View</a>
+    <a href="./composite_view.html">Composite View</a>
+
+    <div id="main">
+      <div id="composite">
+        <h1>Hello World</h1>
+        <ul id="collection">  
+          <li>Item 1: shawn</li>
+          <li>Item 2: hola</li>
+          <li>Item 3: mega</li>
+        </ul>
+      </div>
+    </div>
+    <footer>
+    </footer>
+    <script type="text/html" id="item-template">
+      <li>Templating... Item <%- id %>: <%- name %></li>
+    </script>
+    <script type="text/html" id="composite-template">
+      <div id="composite">
+        <h1><%- title %></h1>
+        <ul id="collection">
+        </ul>
+      </div>
+    </script>
+    <script type="text/javascript">
+      var App = new Marionette.Application();
+
+      App.addRegions({
+        main: '#main'
+      });
+
+      
+      var View = Marionette.ItemView.extend({
+        template: '#item-template',
+        events: {
+          'click': function(){
+            this.model.set('name', 'clicked');
+          }
+        },
+        modelEvents: {
+          change: 'render'
+        }
+      });
+
+      var Model = Backbone.Model.extend({});
+
+      var Collection = Backbone.Collection.extend({
+        model: Model
+      });
+
+      var CompositeView = Marionette.CompositeView.extend({
+        template: '#composite-template',
+        childViewContainer: '#collection',
+        initialize: function(){
+          console.log('initializing composite view...');
+          this.collection = new Collection(this.model.get('list'));
+          this.attachChildren();
+        },
+        childView: View,
+        attachChildren: function(){
+          var self = this;
+
+          this.$('li').each(function(i, element){
+
+            var childView = new View({
+              el: element,
+              model: self.collection.at(i)
+            });
+
+            self.children.add(childView);
+          });
+
+          this._initialEvents();
+        },
+        events: {
+          'click h1': function(){
+            this.model.set('title', 'Hello World Clicked');
+          }
+        },
+        modelEvents: {
+          change: 'render'
+        }
+      });
+
+      model = new Model({
+        title: 'Hello World',
+        list: [{id: 1, name: 'shawn'}, {id: 2, name: 'hola'}, {id: 3, name: 'mega'}]
+      });
+      
+      // instantiating a view
+      view = new CompositeView({
+        model: model,
+        el: '#composite'
+      });
+
+      App.main.attachView(view)
+
+      App.start();
+
+    </script>
+  </body>
+</html>
