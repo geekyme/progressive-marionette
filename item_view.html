@@ -10,17 +10,22 @@
   </head>
   <body>
     <h1>Progressive Enhancement with Marionette</h1>
+    <p>This demo show case how to attach Backbone to server rendered HTML for progressive enhancement.</p>
+    <p>This is great for SEO and first page performance</p>
+    <hr>
     <a href="./item_view.html">Item View</a>
     <a href="./collection_view.html">Collection View</a>
     <a href="./composite_view.html">Composite View</a>
+    <footer>
+      <h3><u>Notes:</u></h3>
+      <p>Item view is redrawing itself because I've configured it to re-render on model change.</p>
+      <p>Note to self: marionette does not provide automatic view-model binding.</p>
+      <hr>
+    </footer>
 
     <ul id="main">
       <li id="sample-item">Item 1: shawn</li>
     </ul>
-    <footer>
-      <p>Need to specify el attribute.</p>
-      <p>Use attachView to attach to region.</p>
-    </footer>
     <script type="text/html" id="item-template">
       <li>Item <%- id %>: <%- name %></li>
     </script>
@@ -36,7 +41,7 @@
         template: '#item-template',
         events: {
           'click': function(){
-            alert(this.model.get('name'));
+            this.model.set('name', 'clicked');
           }
         },
         modelEvents: {

@@ -10,9 +10,20 @@
   </head>
   <body>
     <h1>Progressive Enhancement with Marionette</h1>
+    <p>This demo show case how to attach Backbone to server rendered HTML for progressive enhancement.</p>
+    <p>This is great for SEO and first page performance</p>
+    <hr>
     <a href="./item_view.html">Item View</a>
     <a href="./collection_view.html">Collection View</a>
     <a href="./composite_view.html">Composite View</a>
+    <a href="./composite_view_binding.html">Composite View with Data-binding</a>
+    <footer>
+      <h3><u>Notes:</u></h3>
+      <p>Composite view's child views are redrawing themselves when you click them</p>
+      <p>The composite view itself also redraws itself when you click on the title. The trouble is that is redraws its children too.</p>
+      <p>We need a better solution - composite view only updates its necessary components when its model changed, without affecting its child collection.</p>
+      <hr>
+    </footer>
 
     <div id="main">
       <div id="composite">
@@ -24,8 +35,6 @@
         </ul>
       </div>
     </div>
-    <footer>
-    </footer>
     <script type="text/html" id="item-template">
       <li>Templating... Item <%- id %>: <%- name %></li>
     </script>
