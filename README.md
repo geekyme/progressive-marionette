@@ -6,6 +6,6 @@ For item_view.html, we see that after allowing Backbone to run its code, we are 
 
 For collection_view.html, we are able to click each item on the list and see the model attribute updated and reflected in the view. 
 
-For composite_view, clicking the list of items show the same effect as collection_view.html. However, clicking the 'Hello World' title changes the model attribute which results in a full render of the whole CompositeView. 
+For composite_view.html, we see the same effect as collection_view.html when we click items on the list. However, clicking the title 'Hello World' ends up re-rendering the entire composite view. That is not good for performance. 
 
-What's a good way to only re-render changed content?
+For composite_view_binding.html, I build on the previous example by adding Backbone.ModelBinding. That will provide view-model binding and update only the title 'Hello World' on click. 
